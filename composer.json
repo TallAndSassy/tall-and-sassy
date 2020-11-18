@@ -1,6 +1,6 @@
 {
-    "name": "laravel-frontend-presets/tall",
-    "description": "TALL preset for Laravel.",
+    "name": "laravel-frontend-presets/tall-and-sassy-preset",
+    "description": "Tall and Sassy preset for Laravel.",
     "keywords": [
         "alpine",
         "alpinejs",
@@ -32,9 +32,10 @@
         }
     ],
     "require": {
-        "php": "^7.2.5",
+        "php": "^7.4.8",
         "laravel/ui": "^3.0",
         "illuminate/support": "^8.0"
+
     },
     "require-dev": {
         "phpunit/phpunit": "^9.3"

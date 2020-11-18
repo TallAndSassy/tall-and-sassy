@@ -1,0 +1,86 @@
+{
+    "require": {
+        "php": "^7.4",
+        "laravel/ui": "^3.0",
+        "illuminate/support": "^8.0",
+        "mediconesystems/livewire-datatables": "master-dev",
+        "tallandsassy/app-branding": "master-dev",
+        "tallandsassy/app-theme-base-admin": "master-dev",
+        "tallandsassy/grok-livewire-jet": "master-dev",
+        "tallandsassy/team-means-family": "master-dev",
+        "tallandsassy/app-theme-base-ui-glances": "master-dev",
+        "eleganttechnologies/grok": "master-dev",
+        "tallandsassy/grok-jet-ui": "master-dev",
+        "tallandsassy/livewire-friends": "master-dev",
+        "tallandsassy/plugin-grok": "master-dev"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.3"
+    },
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../package-skeleton-laravel"
+        },
+        {
+            "type": "path",
+            "url": "../../ElegantTechnologies/grok"
+        },
+        {
+            "type": "path",
+            "url": "../grok-jet-ui"
+        },
+        {
+            "type": "path",
+            "url": "../grok-livewire-jet"
+        },
+        {
+            "type": "path",
+            "url": "../livewire-friends"
+        },
+        {
+            "type": "path",
+            "url": "../test-package-a-a-d"
+        },
+        {
+            "type": "path",
+            "url": "../page-guide"
+        },
+        {
+            "type": "path",
+            "url": "../app-theme-base"
+        },
+        {
+            "type": "path",
+            "url": "../app-theme-base-admin"
+        },
+        {
+            "type": "path",
+            "url": "../tassy-ui-looks"
+        },
+        {
+            "type": "path",
+            "url": "../app-branding"
+        },
+        {
+            "type": "path",
+            "url": "../plugin-grok"
+        },
+        {
+            "type": "path",
+            "url": "../team-means-family"
+        },
+        {
+            "type": "path",
+            "url": "../livewire-datatables"
+        },
+        {
+            "type": "path",
+            "url": "../laravel-livewire-tables"
+        },
+        {
+            "type": "path",
+            "url": "../app-theme-base-ui-glances"
+        }
+    ]
+}

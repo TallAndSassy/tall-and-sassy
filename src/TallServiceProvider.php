@@ -6,6 +6,7 @@ use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Ui\UiCommand;
 
+
 class TallServiceProvider extends ServiceProvider
 {
     /**
@@ -15,16 +16,14 @@ class TallServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        UiCommand::macro('tall', function ($command) {
-            TallPreset::install();
+        UiCommand::macro('tassy', function (UiCommand $command) {
+            TassyPreset::installInit();
 
-            $command->info('TALL preset scaffolding installed successfully.');
+            TassyPreset::install();
 
-            if ($command->option('auth')) {
-                TallPreset::installAuth();
+            $command->info('Tassy preset scaffolding installed successfully. Please run "composer update');
 
-                $command->info('Auth scaffolding installed successfully.');
-            }
+            TassyPreset::installAuth();
 
             $command->comment('Please run "npm install && npm run dev" to compile your new assets.');
         });

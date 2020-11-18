@@ -3,52 +3,67 @@
 [![CI Status](https://github.com/laravel-frontend-presets/tall/workflows/Run%20Tests/badge.svg)](https://github.com/laravel-frontend-presets/tall/actions)
 [![Total Downloads](https://poser.pugx.org/laravel-frontend-presets/tall/d/total.svg)](https://packagist.org/packages/laravel-frontend-presets/tall)
 
-A front-end preset for Laravel to scaffold an application using the [TALL stack](https://tallstack.dev), jumpstarting your application's development.
+A front-end preset for Tall and Sassy installation
 
-If you're not familiar with the name, it's an acronym that describes the main technologies involved in the stack:
-- [Tailwind CSS](https://tailwindcss.com)
-- [Alpine.js](https://github.com/alpinejs/alpine)
-- [Laravel](https://laravel.com)
-- [Livewire](https://laravel-livewire.com)
+Install simple Laravel with jetstream and livewire, but no teams
+```bash
+laravel new teamsy2 --jet
 
-![Login View](./screenshot.png)
+# - Pick Livewire
+# - Say 'no' to teams
+```
+
+
+go in and init the laravel install
+```bash
+cd teamsy2
+```
+
+Init the DB
+```bash
+[ ] make a db for this
+[ ] update .env to match your db
+php artisan migrate
+( ) Try visiting the site in the local browser - it should basically work as standard laravel app
+```
+
+Install and init this preset
+---
+
+edit 'composer.json' (this is only until I learn to develop packages more gracefully)
+```json
+"require": {
+ ...
+ "laravel-frontend-presets/tall-and-sassy-preset" : "master-dev"
+
+...
+"repositories": [
+        {
+            "type": "path",
+            "url": "../tall-and-sassy-preset"
+        }
+	]
+```
+
+Install the repos
+```bash
+cd .. #up one directory 
+git clone https://github.com/TallAndSassy/tall-and-sassy
+cd teamsy #go back
+composer update
+php artisan ui tassy 
+composer update     #per instructions
+npm install         #per instructions
+npm run dev         #per instructions
+```
+
+#wip
+repository paths don't seem to be honored for packages.  So we sync it to the main composer.
 
 Some notable features of this package include:
-- Views extending a default layout
-- Front-end assets like Tailwind CSS and Alpine.js compiled with Laravel Mix
-- Tailwind-powered pagination views
-- The [Tailwind UI](https://tailwindui.com) and Tailwind's [Custom Forms](https://github.com/tailwindcss/custom-forms) extensions available out-of-the-box
-
-> **Note**: If you're looking for an application boilerplate that supports the TALL stack, you should check out [Laravel Jetstream](https://github.com/laravel/jetstream). It comes with authentication scaffolding, account management, teams support.
-
-## Installation
-
-This preset is intended to be installed into a fresh Laravel application. Follow [Laravel's installation instructions](https://laravel.com/docs/8.x/installation) to ensure you have a working environment before continuing.
-
-### Installation (without auth)
-
-Then simply run the following commands:
-```bash
-composer require livewire/livewire laravel-frontend-presets/tall
-php artisan ui tall
-npm install
-npm run dev
-```
-
-### Installation (with auth)
-
-If you would like to install the preset and its auth scaffolding in a fresh Laravel application, make sure to use the `--auth` flag on the `ui` command:
-
-```bash
-composer require livewire/livewire laravel-frontend-presets/tall
-php artisan ui tall --auth
-npm install
-npm run dev
-```
-
-Some notable features of the authentication scaffolding include:
-- Powered by Livewire components and single action controllers
-- Bundled with pre-written tests
+- Uses Tall stack
+- Framework for making simply organization-focused SaaS apps
+- Uses jetstream, but overrides a bunch of UI stuff with the goal of more reuse 
 
 All routes, components, controllers and tests are published to your application. The idea behind this is that you have full control over every aspect of the scaffolding in your own app, removing the need to dig around in the vendor folder to figure out how things are working.
 
@@ -81,9 +96,4 @@ class AppServiceProvider extends ServiceProvider
 ```
 
 ## Credits
-
-- [Dan Harrin](https://github.com/DanHarrin)
-- [Liam Hammett](https://github.com/imliam)
-- [Ryan Chandler](https://github.com/ryangjchandler)
-- [Tailwind UI](https://tailwindui.com) for the default authentication and pagination views
-- [All Contributors](../../contributors)
+- Initially forked from the wonderful tall preset (https://github.com/laravel-frontend-presets/tall)
