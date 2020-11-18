@@ -34,8 +34,17 @@
     "require": {
         "php": "^7.4.8",
         "laravel/ui": "^3.0",
-        "illuminate/support": "^8.0"
-
+        "illuminate/support": "^8.0",
+        "mediconesystems/livewire-datatables": "master-dev",
+        "tallandsassy/app-branding": "master-dev",
+        "tallandsassy/app-theme-base-admin": "master-dev",
+        "tallandsassy/grok-livewire-jet": "master-dev",
+        "tallandsassy/team-means-family": "master-dev",
+        "tallandsassy/app-theme-base-ui-glances": "master-dev",
+        "eleganttechnologies/grok": "master-dev",
+        "tallandsassy/grok-jet-ui": "master-dev",
+        "tallandsassy/livewire-friends": "master-dev",
+        "tallandsassy/plugin-grok": "master-dev"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.3"

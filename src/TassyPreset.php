@@ -21,29 +21,28 @@ class TassyPreset extends Preset
         'axios',
     ];
 
-    /* During development, we want use local paths to repositories, but that is difficult in package. Basically,
-    apparently, if a package references local directories, it wont' find them nicely.
-    So we'll put out requirements into a temporary composer called composer.pathReposWorkaround.json
-    and merge the repositories listed there into the main composer.json
-    We'll next merge the requirements listed there into the /package/composer.json
 
-    This only seems necessary cuz we're doing these sym linked packages, instead of grabbing from packagist
-
-    Hmm, what would be a better workflow, this seems stupid?
-    */
     public static function installInit()
     {
+        /* During development, we want use local paths to repositories, but that is difficult in package. Basically,
+        apparently, if a package references local directories, it wont' find them nicely.
+        So we'll put out requirements into a temporary composer called composer.pathReposWorkaround.json
+        and merge the repositories listed there into the main composer.json
+        We'll next merge the requirements listed there into the /package/composer.json
+
+        This only seems necessary cuz we're doing these sym linked packages, instead of grabbing from packagist
+
+        Hmm, what would be a better workflow, this seems stupid?
+        */
         static::mergeComposer();
     }
 
     public static function install()
     {
         // NiceToDo: Ensure Inited
-        #dd(0);
         static::updatePackages();
 
         $filesystem = new Filesystem();
-        # obe $filesystem->deleteDirectory(resource_path('sass'));
         $filesystem->copyDirectory(__DIR__ . '/../stubs/default', base_path());
 
         static::updateFile(
@@ -59,6 +58,8 @@ class TassyPreset extends Preset
                 return str_replace("RouteServiceProvider::HOME", "route('home')", $file);
             }
         );
+
+        
     }
 
     public static function installAuth()

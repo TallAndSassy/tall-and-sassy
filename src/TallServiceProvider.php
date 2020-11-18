@@ -21,11 +21,21 @@ class TallServiceProvider extends ServiceProvider
 
             TassyPreset::install();
 
-            $command->info('Tassy preset scaffolding installed successfully. Please run "composer update');
-
             TassyPreset::installAuth();
 
-            $command->comment('Please run "npm install && npm run dev" to compile your new assets.');
+            $command->comment(''  );
+            $command->info('Tassy preset scaffolding successfully initiated. Please run the following');
+            $command->comment(''  );
+            $command->comment('  php artisan cache:clear'  );
+            $command->comment('  composer update'  );
+            $command->comment('  php artisan migrate'  );
+            $command->comment('  php artisan vendor:publish --provider="TallAndSassy\AppThemeBase\AppThemeBaseServiceProvider" --tag="public"');
+            $command->comment('  php artisan vendor:publish --provider="TallAndSassy\AppBranding\AppBrandingServiceProvider" --tag="config"');
+            $command->comment('  npm install');
+            $command->comment('  npm run dev');
+            $command->comment(''  );
+            $command->comment('  --- Some optional commands---'  );
+            $command->comment('  (tbd)'  );
         });
 
         Paginator::defaultView('pagination::default');
