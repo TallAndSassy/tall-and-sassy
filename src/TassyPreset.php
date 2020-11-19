@@ -17,12 +17,32 @@ class TassyPreset extends Preset
     ];
 
     const NPM_PACKAGES_TO_REMOVE = [
-        'lodash',
-        'axios',
+        #'lodash',
+        #'axios',
     ];
 
 
-    public static function installInit()
+    public static function install(?int $roundNum = null, $command)
+    {
+        if (!$roundNum) {
+            static::install_1($command);
+            static::install_2($command);
+            static::install_3($command);
+            static::install_4($command);
+        } else {
+            $methodName = "install_{$roundNum}";
+            static::$methodName($command);
+        }
+        $command->info('Tall & Sassy applied');
+    }
+
+    public static function install_1($command)
+    {
+        $command->info('-Tweaking node packages');
+        static::updatePackages();
+    }
+
+    public static function install_2($command)
     {
         /* During development, we want use local paths to repositories, but that is difficult in package. Basically,
         apparently, if a package references local directories, it wont' find them nicely.
@@ -34,39 +54,149 @@ class TassyPreset extends Preset
 
         Hmm, what would be a better workflow, this seems stupid?
         */
+        $command->info('- Bring in tassy related packages');
+        $command->comment('  php artisan cache:clear');
+        \Illuminate\Support\Facades\Artisan::call('cache:clear');
         static::mergeComposer();
+
+        $command->comment('  composer update');
+        jcmd('composer update', []);
+        $command->comment('  php artisan migrate');
+        \Illuminate\Support\Facades\Artisan::call('migrate');
     }
 
-    public static function install()
-    {
-        // NiceToDo: Ensure Inited
-        static::updatePackages();
 
+    public static function install_3($command)
+    {
+        // copy files
+        $command->info('- Copying stub files...');
         $filesystem = new Filesystem();
         $filesystem->copyDirectory(__DIR__ . '/../stubs/default', base_path());
 
+        // --- Nix jetstream auth junk
+        $command->info('- Replace jetstream blade templates files...');
+        // -- auth
+        $key = 'auth';
+        $appPathDoomed = "resources/views/{$key}";
+        $appPathNew = "resources/views/-erasemesoonish.{$key}." . date("Y-m-d:H.s");
+        $msg = '';
+        if (static::renameDirectoryInPlace(
+            $appPathDoomed,
+            $appPathNew,
+            false
+        )) {
+            $msg .= "- Soft-deleted {$key} (by renaming $appPathDoomed to $appPathNew)... ";
+        }
+        \Illuminate\Support\Facades\Artisan::call(
+            'vendor:publish',
+            [
+                '--provider' => "TallAndSassy\AppThemeBase\AppThemeBaseServiceProvider",
+                '--tag' => "views.{$key}"
+            ]
+        );
+        $command->comment($msg . " and copied in new {$key} files.");
+
+
+        // -- profile
+        $key = 'profile';
+        $appPathDoomed = "resources/views/{$key}";
+        $appPathNew = "resources/views/-erasemesoonish.{$key}." . date("Y-m-d:H.s");
+        $msg = '';
+        if (static::renameDirectoryInPlace(
+            $appPathDoomed,
+            $appPathNew,
+            false
+        )) {
+            $msg .= "- Soft-deleted {$key} (by renaming $appPathDoomed to $appPathNew)... ";
+        }
+        \Illuminate\Support\Facades\Artisan::call(
+            'vendor:publish',
+            [
+                '--provider' => "TallAndSassy\AppThemeBase\AppThemeBaseServiceProvider",
+                '--tag' => "views.{$key}"
+            ]
+        );
+        $command->comment($msg . " and copied in new {$key} files.");
+
+
+        // -- teams
+        $key = 'teams';
+        $appPathDoomed = "resources/views/{$key}";
+        $appPathNew = "resources/views/-erasemesoonish.{$key}." . date("Y-m-d:H.s");
+        $msg = '';
+        if (static::renameDirectoryInPlace(
+            $appPathDoomed,
+            $appPathNew,
+            false
+        )) {
+            $msg .= "- Soft-deleted {$key} (by renaming $appPathDoomed to $appPathNew)... ";
+        }
+        \Illuminate\Support\Facades\Artisan::call(
+            'vendor:publish',
+            [
+                '--provider' => "TallAndSassy\AppThemeBase\AppThemeBaseServiceProvider",
+                '--tag' => "views.{$key}"
+            ]
+        );
+        $command->comment($msg . " and copied in new {$key} files.");
+
+
+        // new home
+        $command->info('- Make new home be /me instead of /dashboard...');
         static::updateFile(
             base_path('app/Providers/RouteServiceProvider.php'),
             function ($file) {
-                return str_replace("public const HOME = '/home';", "public const HOME = '/me';", $file);
+                return str_replace("HOME = '/dashboard';", "HOME = '/me';", $file);
             }
         );
 
-        static::updateFile(
-            base_path('app/Http/Middleware/RedirectIfAuthenticated.php'),
-            function ($file) {
-                return str_replace("RouteServiceProvider::HOME", "route('home')", $file);
-            }
+        $command->info('-Put in sample logo, mainly');
+        \Illuminate\Support\Facades\Artisan::call(
+            'vendor:publish',
+            [
+                '--provider' => "TallAndSassy\AppThemeBase\AppThemeBaseServiceProvider",
+                '--tag' => "public"
+            ]
         );
 
-        
+
+        $command->info('-Set up config/AppBranding.php');
+        \Illuminate\Support\Facades\Artisan::call(
+            'vendor:publish',
+            [
+                '--provider' => "TallAndSassy\AppBranding\AppBrandingServiceProvider",
+                '--tag' => "config"
+            ]
+        );
+
+
+        $command->info('- npm install');
+        jcmd('npm install', []);
+        $command->comment('  npm run dev');
+        jcmd('npm run dev', []);
+        $command->comment('  php artisan migrate');
+        \Illuminate\Support\Facades\Artisan::call('migrate');
     }
 
-    public static function installAuth()
+    public static function install_4($command)
     {
-        $filesystem = new Filesystem();
+    }
 
-        $filesystem->copyDirectory(__DIR__ . '/../stubs/auth', base_path());
+    protected static function renameDirectoryInPlace(
+        string $appPathDoomed,
+        string $appPathNew,
+        bool $dieIfDirNotThere
+    ): bool {
+        $oldPath = base_path($appPathDoomed);
+        if (!$dieIfDirNotThere && !is_dir($oldPath)) {
+            return false;
+        }
+        assert(is_dir($oldPath));
+        $newPath = base_path($appPathNew);
+        assert(!is_dir($newPath));
+        rename($oldPath, $newPath);
+        assert(is_dir($newPath));
+        return true;
     }
 
     protected static function updatePackageArray(array $packages)
@@ -110,7 +240,7 @@ class TassyPreset extends Preset
 
 //        // We _should_ be mergining into ./composer.json, but composer update isn't seeing the changes..
 //        // ugh. Let's hack update /composer.json as a workaround. Again, this goes away if we had a better dev workflow
-         static::mergeFromJsonFilePath(
+        static::mergeFromJsonFilePath(
             $path_package_post_composer,
             $path_package_main_composer,
             function ($asr_from, $asr_to) {
@@ -154,3 +284,101 @@ class TassyPreset extends Preset
         file_put_contents($toPath, $json_to);
     }
 }
+
+function jcmd($cmd, $asrFlags)
+{
+    exec($cmd, $output, $return);
+    if (!empty($asrFlags['bForceEcho']) && $asrFlags['bForceEcho'] == true) {
+        print_r($output);
+    }
+
+    if ($return != 0) {
+        // an error occurred
+        if (is_array($output)) {
+            $output = var_export($output, true);
+        }
+
+        $s = "
+Yikes: an error was generated when running:
+$cmd
+
+with error code: $return
+
+and output: $output
+
+";
+
+
+        $c = new Colors();
+        print $c->getColoredString($s, 'red');
+        exit;
+    }
+}
+
+class Colors
+    { //http://www.if-not-true-then-false.com/2010/php-class-for-coloring-php-command-line-cli-scripts-output-php-output-colorizing-using-bash-shell-colors/
+        private $foreground_colors = array();
+        private $background_colors = array();
+
+        public function __construct()
+        {
+            // Set up shell colors
+            $this->foreground_colors['black'] = '0;30';
+            $this->foreground_colors['dark_gray'] = '1;30';
+            $this->foreground_colors['blue'] = '0;34';
+            $this->foreground_colors['light_blue'] = '1;34';
+            $this->foreground_colors['green'] = '0;32';
+            $this->foreground_colors['light_green'] = '1;32';
+            $this->foreground_colors['cyan'] = '0;36';
+            $this->foreground_colors['light_cyan'] = '1;36';
+            $this->foreground_colors['red'] = '0;31';
+            $this->foreground_colors['light_red'] = '1;31';
+            $this->foreground_colors['purple'] = '0;35';
+            $this->foreground_colors['light_purple'] = '1;35';
+            $this->foreground_colors['brown'] = '0;33';
+            $this->foreground_colors['yellow'] = '1;33';
+            $this->foreground_colors['light_gray'] = '0;37';
+            $this->foreground_colors['white'] = '1;37';
+
+            $this->background_colors['black'] = '40';
+            $this->background_colors['red'] = '41';
+            $this->background_colors['green'] = '42';
+            $this->background_colors['yellow'] = '43';
+            $this->background_colors['blue'] = '44';
+            $this->background_colors['magenta'] = '45';
+            $this->background_colors['cyan'] = '46';
+            $this->background_colors['light_gray'] = '47';
+        }
+
+        // Returns colored string
+        public function getColoredString($string, $foreground_color = null, $background_color = null)
+        {
+            $colored_string = "";
+
+            // Check if given foreground color found
+            if (isset($this->foreground_colors[$foreground_color])) {
+                $colored_string .= "\033[" . $this->foreground_colors[$foreground_color] . "m";
+            }
+            // Check if given background color found
+            if (isset($this->background_colors[$background_color])) {
+                $colored_string .= "\033[" . $this->background_colors[$background_color] . "m";
+            }
+
+            // Add string and end coloring
+            $colored_string .= $string . "\033[0m";
+
+            return $colored_string;
+        }
+
+        // Returns all foreground color names
+        public function getForegroundColors()
+        {
+            return array_keys($this->foreground_colors);
+        }
+
+        // Returns all background color names
+        public function getBackgroundColors()
+        {
+            return array_keys($this->background_colors);
+        }
+    }

@@ -14,23 +14,31 @@ laravel new teamsy2 --jet
 ```
 
 
-go in and init the laravel install
-```bash
-cd teamsy2
-```
 
-Init the DB
+
+Init the environment (DB)
 ```bash
 [ ] make a db for this
 [ ] update .env to match your db
-php artisan migrate
-( ) Try visiting the site in the local browser - it should basically work as standard laravel app
+
+-- optional - inspect now to see how it's going
+    php artisan migrate
+    ( ) Try visiting the site in the local browser - it should basically work as standard laravel app
 ```
 
-Install and init this preset
+Install Installaller (Locally or from packagist - pick a method)
 ---
+.1) Install From Packagist 
+```bash
+composer require laravel-frontend-presets/tall-and-sassy-preset #wip
+``` 
 
-edit 'composer.json' (this is only until I learn to develop packages more gracefully)
+.2) Install from local development directory
+```bash
+#up one directory, not in the laravel app directory 
+git clone https://github.com/TallAndSassy/tall-and-sassy-preset
+```
+edit 'teamsy2/composer.json' (this is only until I learn to develop packages more gracefully)
 ```json
 "require": {
  ...
@@ -44,17 +52,15 @@ edit 'composer.json' (this is only until I learn to develop packages more gracef
         }
 	]
 ```
+```bash 
+composer update --working-dir=teamsy2
+```
+Run the installer
+---
 
-Install the repos
 ```bash
-cd .. #up one directory 
-git clone https://github.com/TallAndSassy/tall-and-sassy
-cd teamsy #go back
-composer update
-php artisan ui tassy 
-composer update     #per instructions
-npm install         #per instructions
-npm run dev         #per instructions
+cd teamsy2
+php artisan tassy-install   
 ```
 
 #wip
