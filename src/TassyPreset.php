@@ -170,16 +170,17 @@ class TassyPreset extends Preset
         );
 
 
-        $command->info('- npm install');
+
+    }
+
+    public static function install_4($command)
+    {
+         $command->info('- npm install');
         jcmd('npm install', []);
         $command->comment('  npm run dev');
         jcmd('npm run dev', []);
         $command->comment('  php artisan migrate');
         \Illuminate\Support\Facades\Artisan::call('migrate');
-    }
-
-    public static function install_4($command)
-    {
     }
 
     protected static function renameDirectoryInPlace(
