@@ -63,9 +63,6 @@ cd teamsy2
 php artisan tassy-install   
 ```
 
-#wip
-repository paths don't seem to be honored for packages.  So we sync it to the main composer.
-
 Some notable features of this package include:
 - Uses Tall stack
 - Framework for making simply organization-focused SaaS apps
@@ -73,33 +70,7 @@ Some notable features of this package include:
 
 All routes, components, controllers and tests are published to your application. The idea behind this is that you have full control over every aspect of the scaffolding in your own app, removing the need to dig around in the vendor folder to figure out how things are working.
 
-## CSS purging
 
-Tailwind uses PurgeCSS to remove any unused classes from your production CSS builds. You can modify or remove this behaviour in the `purge` section of your `tailwind.config.js` file. For more information, please see the [Tailwind documentation](https://tailwindcss.com/docs/controlling-file-size/).
-
-## Removing the package
-
-If you don't want to keep this package installed once you've installed the preset, you can safely remove it. Unlike the default Laravel presets, this one publishes all the auth logic to your project's `/app` directory, so it's fully redundant.
-
-
-### A note on pagination
-
-If you are using pagination, you set the default pagination views to the ones provided in the `boot` method of a service provider:
-
-```php
-use Illuminate\Pagination\Paginator;
-use Illuminate\Support\ServiceProvider;
-
-class AppServiceProvider extends ServiceProvider
-{
-    public function boot()
-    {
-        Paginator::defaultView('pagination::default');
-
-        Paginator::defaultSimpleView('pagination::simple-default');
-    }
-}
-```
 
 ## Credits
 - Initially forked from the wonderful tall preset (https://github.com/laravel-frontend-presets/tall)
