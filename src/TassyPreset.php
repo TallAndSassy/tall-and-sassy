@@ -9,11 +9,11 @@ use Laravel\Ui\Presets\Preset;
 class TassyPreset extends Preset
 {
     const NPM_PACKAGES_TO_ADD = [
-        '@tailwindcss/ui' => '^0.4',
+        #'@tailwindcss/ui' => '^0.4',
         '@tailwindcss/typography' => '^0.2',
         'alpinejs' => '^2.6',
         'laravel-mix-tailwind' => '^0.1.0',
-        'tailwindcss' => '^1.5',
+        'tailwindcss' => '^2.0',
     ];
 
     const NPM_PACKAGES_TO_REMOVE = [
