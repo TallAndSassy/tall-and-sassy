@@ -32,10 +32,9 @@
         }
     ],
     "require": {
-        "php": "^7.4.8",
+        "php": "^8.0",
         "laravel/ui": "^3.0",
         "illuminate/support": "^8.0",
-        "mediconesystems/livewire-datatables": "master-dev",
         "tallandsassy/app-branding": "master-dev",
         "tallandsassy/app-theme-base-admin": "master-dev",
         "tallandsassy/grok-livewire-jet": "master-dev",
