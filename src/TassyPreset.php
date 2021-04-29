@@ -44,7 +44,7 @@ class TassyPreset extends Preset
 
     public static function install_2($command)
     {
-        /* During development, we want use local paths to repositories, but that is difficult in package. Basically,
+        /* During development, we want use local paths to repositories, but that is difficult to make work while a package. Basically,
         apparently, if a package references local directories, it wont' find them nicely.
         So we'll put out requirements into a temporary composer called composer.pathReposWorkaround.json
         and merge the repositories listed there into the main composer.json
@@ -52,7 +52,7 @@ class TassyPreset extends Preset
 
         This only seems necessary cuz we're doing these sym linked packages, instead of grabbing from packagist
 
-        Hmm, what would be a better workflow, this seems stupid?
+        Hmm, what would be a better workflow, this seems stupid? And really hard to remember the the steps.
         */
         $command->info('- Bring in tassy related packages');
         $command->comment('  php artisan cache:clear');
@@ -94,7 +94,7 @@ class TassyPreset extends Preset
                 '--tag' => "views.{$key}"
             ]
         );
-        $command->comment($msg . " and copied in new {$key} files.");
+        $command->comment($msg . " and copied in new {$key} files. (via vendor:publish --provider=TallAndSassy\AppThemeBase\AppThemeBaseServiceProvider --tag=views.{$key}' ");
 
 
         // -- profile
@@ -116,7 +116,8 @@ class TassyPreset extends Preset
                 '--tag' => "views.{$key}"
             ]
         );
-        $command->comment($msg . " and copied in new {$key} files.");
+        $command->comment($msg . " and copied in new {$key} files. (via vendor:publish --provider=TallAndSassy\AppThemeBase\AppThemeBaseServiceProvider --tag=views.{$key}' ");
+
 
 
         // -- teams
@@ -138,17 +139,20 @@ class TassyPreset extends Preset
                 '--tag' => "views.{$key}"
             ]
         );
-        $command->comment($msg . " and copied in new {$key} files.");
+        $command->comment($msg . " and copied in new {$key} files. (via vendor:publish --provider=TallAndSassy\AppThemeBase\AppThemeBaseServiceProvider --tag=views.{$key}' ");
+
 
 
         // new home
         $command->info('- Make new home be /me instead of /dashboard...');
+        $transmorphingFile = base_path('app/Providers/RouteServiceProvider.php');
         static::updateFile(
-            base_path('app/Providers/RouteServiceProvider.php'),
+            $transmorphingFile,
             function ($file) {
                 return str_replace("HOME = '/dashboard';", "HOME = '/me';", $file);
             }
         );
+        $command->comment(" and changed strings in '$transmorphingFile' from HOME = '/dashboard' to HOME = '/me' via ");
 
         $command->info('-Put in sample logo, mainly');
         \Illuminate\Support\Facades\Artisan::call(
@@ -158,6 +162,7 @@ class TassyPreset extends Preset
                 '--tag' => "public"
             ]
         );
+        $command->comment(" (via vendor:publish --provider=TallAndSassy\AppThemeBase\AppThemeBaseServiceProvide --tag=public')");
 
 
         $command->info('-Set up config/AppBranding.php');
@@ -168,6 +173,7 @@ class TassyPreset extends Preset
                 '--tag' => "config"
             ]
         );
+        $command->comment(" (via vendor:publish --provider=TallAndSassy\AppThemeBase\AppThemeBaseServiceProvide --tag=config')");
 
 
 
