@@ -1,4 +1,4 @@
-# JJ's Laravel TALL Preset
+# Tall & Sassy: JJ's Laravel TALL Preset
 
 [![CI Status](https://github.com/laravel-frontend-presets/tall-and-sassy/workflows/Run%20Tests/badge.svg)](https://github.com/laravel-frontend-presets/tall/actions)
 [![Total Downloads](https://poser.pugx.org/laravel-frontend-presets/tall-and-sassy/d/total.svg)](https://packagist.org/packages/laravel-frontend-presets/tall)
@@ -6,7 +6,8 @@
 A front-end preset for Tall & Sassy installation. Tall & Sassy is a preset for 
 creating an opinionated multi-tenenat SaaS with a dashboard, Hotwire pages, and ajax models.
 
-
+2021/04 - In the middle of a big change to work with TallAndSassy remerging into
+single module/package
 (This is a work-in-progress. It will break)
 
 Install Base Laravel w/ Jetstream
@@ -108,7 +109,7 @@ rm -rf 'resources/views/-erasemesoonish.*'
   # (Anything merged in from 'composer.pathReposWorkaround.json')
     # Also, do not commit the updated 'composer.json' to git.
 "tallandsassy/app-branding": "master-dev",
-"tallandsassy/app-theme-base-admin": "master-dev",
+"tallandsassy/page-guide-admin": "master-dev",
 "tallandsassy/grok-livewire-jet": "master-dev",
 "tallandsassy/team-means-family": "master-dev",
 "tallandsassy/app-theme-base-ui-glances": "master-dev",

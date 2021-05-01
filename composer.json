@@ -36,7 +36,7 @@
         "laravel/ui": "^3.0",
         "illuminate/support": "^8.0",
         "tallandsassy/app-branding": "master-dev",
-        "tallandsassy/app-theme-base-admin": "master-dev",
+        "tallandsassy/page-guide-admin": "master-dev",
         "tallandsassy/grok-livewire-jet": "master-dev",
         "tallandsassy/team-means-family": "master-dev",
         "tallandsassy/app-theme-base-ui-glances": "master-dev",
