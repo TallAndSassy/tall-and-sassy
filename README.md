@@ -24,7 +24,7 @@ laravel new teamsy2 --jet
 
 
 
-Init the environment (DB)
+SelfRegister the environment (DB)
 ```bash
 cd teamsy2
 [ ] make a db for this, called 'teamsy2' (or whatever you picked above)
